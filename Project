@@ -1,0 +1,84 @@
+-- Customers table
+CREATE TABLE Customers (
+    customer_id INT PRIMARY KEY,
+    name VARCHAR(255),
+    email VARCHAR(255),
+    phone_number VARCHAR(20)
+);
+
+-- Employees table
+CREATE TABLE Employees (
+    employee_id INT PRIMARY KEY,
+    name VARCHAR(255),
+    position VARCHAR(100),
+    email VARCHAR(255),
+    phone_number VARCHAR(20)
+);
+
+-- Routes table
+CREATE TABLE Routes (
+    route_id INT PRIMARY KEY,
+    origin VARCHAR(100),
+    destination VARCHAR(100),
+    day_of_week VARCHAR(10),
+    scheduled_time TIME
+);
+
+-- Flights table
+CREATE TABLE Flights (
+    flight_id INT PRIMARY KEY,
+    route_id INT,
+    airplane_id INT,
+    departure_time DATETIME,
+    arrival_time DATETIME,
+    FOREIGN KEY (route_id) REFERENCES Routes(route_id),
+    FOREIGN KEY (airplane_id) REFERENCES Airplanes(airplane_id)
+);
+
+-- Locations table
+CREATE TABLE Locations (
+    location_id INT PRIMARY KEY,
+    location_name VARCHAR(100)
+);
+
+-- Tickets table
+CREATE TABLE Tickets (
+    ticket_id INT PRIMARY KEY,
+    customer_id INT,
+    flight_id INT,
+    cabin_type VARCHAR(50),
+    price DECIMAL(10, 2),
+    FOREIGN KEY (customer_id) REFERENCES Customers(customer_id),
+    FOREIGN KEY (flight_id) REFERENCES Flights(flight_id)
+);
+
+-- Airplanes table
+CREATE TABLE Airplanes (
+    airplane_id INT PRIMARY KEY,
+    airplane_name VARCHAR(100),
+    capacity INT
+);
+
+-- Cabins table
+CREATE TABLE Cabins (
+    cabin_id INT PRIMARY KEY,
+    cabin_type VARCHAR(50),
+    price DECIMAL(10, 2)
+);
+
+-- Payments table
+CREATE TABLE Payments (
+    payment_id INT PRIMARY KEY,
+    ticket_id INT,
+    amount DECIMAL(10, 2),
+    payment_date DATE,
+    FOREIGN KEY (ticket_id) REFERENCES Tickets(ticket_id)
+);
+
+-- Discounts table
+CREATE TABLE Discounts (
+    discount_id INT PRIMARY KEY,
+    ticket_id INT,
+    discount_percentage DECIMAL(5, 2),
+    FOREIGN KEY (ticket_id) REFERENCES Tickets(ticket_id)
+);
